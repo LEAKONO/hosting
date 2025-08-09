@@ -1,0 +1,173 @@
+.
+├── App.css
+├── App.jsx
+├── assets
+│   ├── icons
+│   │   ├── font-awesome
+│   │   └── svg
+│   ├── images
+│   │   ├── dashboard
+│   │   ├── hosting-plans
+│   │   └── team
+│   ├── react.svg
+│   └── styles
+├── components
+│   ├── admin
+│   ├── common
+│   │   ├── Alert.jsx
+│   │   ├── Badge.jsx
+│   │   ├── Card.jsx
+│   │   ├── Loader.jsx
+│   │   ├── Modal.jsx
+│   │   └── Tooltip.jsx
+│   ├── landing
+│   │   ├── FeatureGrid.jsx
+│   │   ├── Hero.jsx
+│   │   ├── PricingCards.jsx
+│   │   └── Testimonials.jsx
+│   ├── layout
+│   │   ├── Breadcrumbs.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Navbar
+│   │   │   ├── AdminNav.jsx
+│   │   │   ├── Breadcrumbs.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── MainNav.jsx
+│   │   │   └── UserNav.jsx
+│   │   └── Sidebar
+│   │       ├── AdminSidebar.jsx
+│   │       ├── Breadcrumbs.jsx
+│   │       ├── Footer.jsx
+│   │       └── UserSidebar.jsx
+│   └── user
+│       ├── DomainSearchWidget.jsx
+│       ├── InvoiceAlert.jsx
+│       ├── QuickAccessMenu.jsx
+│       └── ServiceCard.jsx
+├── contexts
+│   ├── AuthContext.jsx
+│   ├── NotificationContext.jsx
+│   └── ThemeContext.jsx
+├── hooks
+│   ├── useAdmin.js
+│   ├── useAnalytics.js
+│   ├── useAuth.js
+│   └── useDomains.js
+├── index.css
+├── layouts
+│   ├── AdminLayout.jsx
+│   ├── MainLayout.jsx
+│   └── UserLayout.jsx
+├── main.jsx
+├── my_structure.txt
+├── pages
+│   ├── admin
+│   │   ├── analytics
+│   │   │   ├── Conversions.jsx
+│   │   │   ├── Growth.jsx
+│   │   │   └── Trends.jsx
+│   │   ├── billing
+│   │   │   ├── Invoices.jsx
+│   │   │   ├── Reminders.jsx
+│   │   │   ├── Reports.jsx
+│   │   │   └── Transactions.jsx
+│   │   ├── dashboard
+│   │   │   ├── Analytics.jsx
+│   │   │   ├── Overview.jsx
+│   │   │   └── Security.jsx
+│   │   ├── security
+│   │   │   ├── Alerts.jsx
+│   │   │   ├── Audit.jsx
+│   │   │   └── Logs.jsx
+│   │   ├── services
+│   │   │   ├── List.jsx
+│   │   │   ├── Monitor.jsx
+│   │   │   └── Types.jsx
+│   │   ├── settings
+│   │   │   ├── Affiliate.jsx
+│   │   │   ├── General.jsx
+│   │   │   ├── Staff.jsx
+│   │   │   └── System.jsx
+│   │   ├── support
+│   │   │   ├── Queue.jsx
+│   │   │   ├── Responses.jsx
+│   │   │   └── Tickets.jsx
+│   │   └── users
+│   │       ├── Activity.jsx
+│   │       ├── Add.jsx
+│   │       ├── List.jsx
+│   │       └── View.jsx
+│   ├── auth
+│   │   ├── ForgotPassword.jsx
+│   │   ├── Login.jsx
+│   │   ├── Register.jsx
+│   │   └── ResetPassword.jsx
+│   ├── landing
+│   │   ├── DomainSearch.jsx
+│   │   ├── Features.jsx
+│   │   ├── Home.jsx
+│   │   ├── Pricing.jsx
+│   │   └── Support.jsx
+│   └── user
+│       ├── billing
+│       │   ├── History.jsx
+│       │   ├── Invoices.jsx
+│       │   ├── Methods.jsx
+│       │   └── Payments.jsx
+│       ├── dashboard
+│       │   ├── Overview.jsx
+│       │   ├── QuickActions.jsx
+│       │   └── Services.jsx
+│       ├── domains
+│       │   ├── List.jsx
+│       │   ├── Manage.jsx
+│       │   ├── Register.jsx
+│       │   └── Transfer.jsx
+│       ├── settings
+│       │   ├── Notifications.jsx
+│       │   ├── Profile.jsx
+│       │   └── Security.jsx
+│       └── tickets
+│           ├── List.jsx
+│           ├── New.jsx
+│           └── View.jsx
+├── public
+│   └── assets
+│       ├── branding
+│       ├── illustrations
+│       └── logos
+├── route.js
+├── services
+│   ├── api
+│   │   ├── admin.js
+│   │   ├── analytics.js
+│   │   ├── auth.js
+│   │   ├── billing.js
+│   │   ├── domains.js
+│   │   ├── hosting.js
+│   │   └── security.js
+│   └── helpers
+│       ├── auth.js
+│       ├── billing.js
+│       ├── charts.js
+│       ├── date.js
+│       └── domains.js
+├── store
+│   ├── slices
+│   │   ├── adminSlice.js
+│   │   ├── analyticsSlice.js
+│   │   ├── authSlice.js
+│   │   ├── domainSlice.js
+│   │   ├── invoiceSlice.js
+│   │   ├── securitySlice.js
+│   │   └── userSlice.js
+│   └── store.js
+├── theme.js
+└── utils
+    ├── admin.js
+    ├── constants.js
+    ├── formatters.js
+    ├── hosting.js
+    └── validators.js
+
+50 directories, 121 files

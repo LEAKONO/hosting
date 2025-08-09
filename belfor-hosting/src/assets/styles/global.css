@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  @apply text-gray-800;
+}
+
+/* Custom animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom components */
+.btn-primary {
+  @apply bg-[#006400] text-white px-6 py-3 rounded-lg font-bold hover:bg-[#004d00] transition duration-300;
+}
+
+.btn-outline {
+  @apply border-2 border-[#006400] text-[#006400] px-6 py-3 rounded-lg font-bold hover:bg-[#006400] hover:text-white transition duration-300;
+}
+
+/* Pattern background */
+.pattern-bg {
+  background-image: url('/src/assets/images/pattern.svg');
+  @apply opacity-10;
+}

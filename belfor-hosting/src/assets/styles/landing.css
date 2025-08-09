@@ -1,0 +1,20 @@
+@layer components {
+  .hero-section {
+    @apply relative py-20 bg-gradient-to-r from-primary-500 to-primary-700 text-white;
+    background-image: url('../../images/landing/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .feature-card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-all hover:shadow-lg hover:-translate-y-1;
+  }
+
+  .pricing-card {
+    @apply border border-gray-200 dark:border-gray-700 rounded-xl p-8 transition-all hover:border-primary-500;
+  }
+
+  .testimonial-card {
+    @apply bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-sm;
+  }
+}

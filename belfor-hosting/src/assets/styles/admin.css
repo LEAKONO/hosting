@@ -1,0 +1,21 @@
+@layer components {
+  .admin-sidebar {
+    @apply bg-gray-800 text-white w-64 fixed h-full transition-all;
+  }
+
+  .admin-nav-item {
+    @apply flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-colors;
+  }
+
+  .admin-nav-item.active {
+    @apply bg-primary-600 text-white;
+  }
+
+  .stats-card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow p-6;
+  }
+
+  .data-table {
+    @apply min-w-full divide-y divide-gray-200 dark:divide-gray-700;
+  }
+}

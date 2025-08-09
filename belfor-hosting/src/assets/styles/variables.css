@@ -1,0 +1,11 @@
+/* variables.css */
+:root {
+  /* Kenyan color palette */
+  --color-primary: 0, 100, 0;       /* RGB values for #006400 */
+  --color-secondary: 187, 0, 0;     /* RGB values for #BB0000 */
+  
+  /* Spacing */
+  --space-unit: 1rem;
+}
+
+/* Remove the @layer base section as we're now defining in tailwind.config.js */

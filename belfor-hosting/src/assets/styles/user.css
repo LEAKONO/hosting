@@ -1,0 +1,21 @@
+@layer components {
+  .user-dashboard {
+    @apply grid grid-cols-1 md:grid-cols-4 gap-6;
+  }
+
+  .service-card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow p-6 border-l-4 border-primary-500;
+  }
+
+  .domain-status {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .domain-status.active {
+    @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200;
+  }
+
+  .domain-status.expired {
+    @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+  }
+}
