@@ -3,15 +3,16 @@ import heroBg from '@assets/images/Hero.png';
 export default function Hero() {
   return (
     <section 
-      className="relative text-white py-16 md:py-24 min-h-[60vh]"
+      className="relative text-white min-h-[60vh] bg-gradient-to-r from-[#3E38DA] to-[#3E38DA]/90"
       style={{
-        backgroundImage: `linear-gradient(rgba(62, 56, 218, 0.85), rgba(62, 56, 218, 0.85)), url(${heroBg})`,
-        backgroundSize: 'cover',
+        backgroundImage: `url(${heroBg})`,
+        backgroundSize: 'fit',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="container mx-auto px-6 h-full flex items-center">
+      {/* <div class="absolute inset-0 bg-[#3E38DA] bg-opacity-25"></div> */}
+      <div className="container mx-auto px-6 py-16 h-full flex items-center">
         <div className="text-left w-full md:w-1/2">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
   Fastest <span className="text-red-500">Performance</span> Web Hosting

@@ -1,54 +1,26 @@
 import axios from 'axios';
 
-const API_BASE_URL = '/api'; // Change this if your backend URL is different
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
-export const getInvoices = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/invoices`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching invoices:', error);
-    throw error;
-  }
-};
-
-export const getInvoice = async (invoiceId) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/invoices/${invoiceId}`);
-    return response.data;
-  } catch (error) {
-    console.error(`Error fetching invoice ${invoiceId}:`, error);
-    throw error;
-  }
-};
-
-export const makePayment = async (invoiceId, paymentData) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/invoices/${invoiceId}/pay`, paymentData);
-    return response.data;
-  } catch (error) {
-    console.error(`Error making payment for invoice ${invoiceId}:`, error);
-    throw error;
-  }
-};
-
-// ✅ Get all saved payment methods
+// Get available payment methods
 export const getPaymentMethods = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/payment-methods`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching payment methods:', error);
-    throw error;
-  }
+  const response = await axios.get(`${API_URL}/payment-methods`);
+  return response.data;
 };
 
-export const addPaymentMethod = async (methodData) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/payment-methods`, methodData);
-    return response.data;
-  } catch (error) {
-    console.error('Error adding payment method:', error);
-    throw error;
-  }
+// Make a payment
+export const makePayment = async (invoiceId, paymentData) => {
+  const response = await axios.post(`${API_URL}/payments/process`, {
+    invoiceId,
+    ...paymentData
+  });
+  return response.data;
+};
+
+// Get invoices
+export const getInvoices = async (status = 'all') => {
+  const response = await axios.get(`${API_URL}/invoices`, {
+    params: { status }
+  });
+  return response.data;
 };

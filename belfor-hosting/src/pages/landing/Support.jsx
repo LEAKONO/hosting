@@ -18,7 +18,6 @@ export default function Support() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission
     alert('Support request submitted!');
   };
 

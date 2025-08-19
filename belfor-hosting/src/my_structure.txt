@@ -25,6 +25,7 @@
 │   │   ├── Hero.jsx
 │   │   ├── PricingCards.jsx
 │   │   └── Testimonials.jsx
+
 │   ├── layout
 │   │   ├── Breadcrumbs.jsx
 │   │   ├── Footer.jsx

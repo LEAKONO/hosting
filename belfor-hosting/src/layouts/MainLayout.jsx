@@ -17,7 +17,7 @@ export default function MainLayout() {
     <div className={`flex flex-col min-h-screen transition-colors duration-300 ${theme.mode === 'dark' ? 'dark' : ''}`}>
       <MainNav />
       
-      <main className="flex-grow">
+      <main className="flex-grow relative z-30"> 
         <Outlet />
       </main>
       

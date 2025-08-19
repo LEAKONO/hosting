@@ -6,13 +6,25 @@ import UserLayout from './layouts/UserLayout';
 import RequireAuth from './components/common/RequireAuth';
 import RequireAdmin from './components/common/RequireAdmin';
 
-// Lazy load pages for better performance
+// Lazy load landing pages
 const Home = lazy(() => import('./pages/landing/Home'));
+const WebHosting = lazy(() => import('./pages/landing/WebHosting'));
 const Pricing = lazy(() => import('./pages/landing/Pricing'));
 const Features = lazy(() => import('./pages/landing/Features'));
 const Support = lazy(() => import('./pages/landing/Support'));
 const DomainSearch = lazy(() => import('./pages/landing/DomainSearch'));
+const Domains = lazy(() => import('./pages/landing/Domains'));
+const Account = lazy(() => import('./pages/landing/Account'));
+const Checkout = lazy(() => import('./pages/landing/Checkout'));
+const OrderConfirmation = lazy(() => import('./pages/landing/OrderConfirmation'));
+const CPanelHosting = lazy(() => import('./pages/landing/CPanelHosting'));
+const DomainRegister = lazy(() => import('./pages/landing/DomainRegister'));
+const DomainTransfer = lazy(() => import('./pages/landing/DomainTransfer'));
+const DomainPricing = lazy(() => import('./pages/landing/DomainPricing'));
+const WorkplaceEmails = lazy(() => import('./pages/landing/WorkplaceEmails'));
+const SSLCertificates = lazy(() => import('./pages/landing/SSLCertificates'));
 
+// Auth pages
 const Login = lazy(() => import('./pages/auth/Login'));
 const Register = lazy(() => import('./pages/auth/Register'));
 const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
@@ -69,14 +81,35 @@ const AdminAnalyticsGrowth = lazy(() => import('./pages/admin/analytics/Growth')
 export default function AppRoutes() {
   return (
     <Routes>
+      {/* Main Landing Routes */}
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
+        
+        {/* Hosting Routes */}
+        <Route path="hosting" element={<WebHosting />} />
+        <Route path="hosting/cpanel" element={<CPanelHosting />} />
+        <Route path="domain-search" element={<DomainSearch />} />
+        
+        {/* Domains Routes */}
+        <Route path="domains" element={<Domains />} />
+        <Route path="domains/register" element={<DomainRegister />} />
+        <Route path="domains/transfer" element={<DomainTransfer />} />
+        <Route path="domains/pricing" element={<DomainPricing />} />
+        
+        {/* Pricing Routes */}
         <Route path="pricing" element={<Pricing />} />
+        <Route path="pricing/emails" element={<WorkplaceEmails />} />
+        <Route path="pricing/ssl" element={<SSLCertificates />} />
+        
+        {/* Other Routes */}
         <Route path="features" element={<Features />} />
         <Route path="support" element={<Support />} />
-        <Route path="domain-search" element={<DomainSearch />} />
+        <Route path="account" element={<Account />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route path="order-confirmation" element={<OrderConfirmation />} />
       </Route>
 
+      {/* Auth Routes */}
       <Route path="/auth" element={<MainLayout hideNav />}>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
@@ -84,6 +117,7 @@ export default function AppRoutes() {
         <Route path="reset-password/:token" element={<ResetPassword />} />
       </Route>
 
+      {/* User Dashboard Routes */}
       <Route path="/user" element={<RequireAuth><UserLayout /></RequireAuth>}>
         <Route path="dashboard" element={<UserOverview />} />
         <Route path="dashboard/services" element={<UserServices />} />
@@ -109,6 +143,7 @@ export default function AppRoutes() {
         <Route path="domains/transfer" element={<UserDomainTransfer />} />
       </Route>
 
+      {/* Admin Dashboard Routes */}
       <Route path="/admin" element={<RequireAdmin><AdminLayout /></RequireAdmin>}>
         <Route index element={<AdminDashboardOverview />} />
         <Route path="dashboard/overview" element={<AdminDashboardOverview />} />
@@ -147,6 +182,7 @@ export default function AppRoutes() {
         <Route path="analytics/growth" element={<AdminAnalyticsGrowth />} />
       </Route>
 
+      {/* 404 Catch-all */}
       <Route path="*" element={<MainLayout><div>404 - Not Found</div></MainLayout>} />
     </Routes>
   );

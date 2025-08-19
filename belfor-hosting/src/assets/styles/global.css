@@ -35,3 +35,6 @@ body {
   background-image: url('/src/assets/images/pattern.svg');
   @apply opacity-10;
 }
+body {
+  font-family: 'Inter', sans-serif;
+}

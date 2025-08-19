@@ -2,7 +2,6 @@ import Hero from '../../components/landing/Hero';
 import FeatureGrid from '../../components/landing/FeatureGrid';
 import PricingCards from '../../components/landing/PricingCards';
 import Testimonials from '../../components/landing/Testimonials';
-import DomainSearch from './DomainSearch';
 import { useState } from 'react';
 import { FaTicketAlt, FaComments, FaPhoneAlt } from 'react-icons/fa';
 
@@ -59,12 +58,10 @@ export default function Home() {
   return (
     <div className="landing-page font-inter">
       <Hero />
-      <DomainSearch />
       <PricingCards />
       <FeatureGrid />
       <Testimonials />
       
-      {/* Payment Options Section */}
       <div className="py-16 bg-white">
         <div className="container mx-auto px-6 max-w-4xl">
           <h1 className="text-2xl font-extrabold leading-none text-gray-700 px-3 py-2 mb-8 text-center max-w-max mx-auto">
