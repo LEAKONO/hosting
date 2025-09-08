@@ -36,7 +36,6 @@ export default function SSLCertificates() {
         "DV Certificate"
       ],
       buttonText: "Select Plan"
-      // Removed the popular property
     },
     {
       name: "Wildcard SSL",
@@ -118,7 +117,6 @@ export default function SSLCertificates() {
     }
   ];
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -142,7 +140,6 @@ export default function SSLCertificates() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-      {/* Hero Section */}
       <section className="py-12 px-4 bg-[#3E38DA] text-white">
         <div className="max-w-6xl mx-auto">
           <motion.h1 

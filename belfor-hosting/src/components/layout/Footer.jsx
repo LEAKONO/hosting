@@ -1,90 +1,194 @@
-import { Link } from 'react-router-dom'; // Add this import
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { 
+  FaFacebookF, 
+  FaTwitter, 
+  FaLinkedinIn, 
+  FaInstagram
+} from 'react-icons/fa';
 
 export default function Footer() {
-  const footerLinks = [
-    {
-      title: 'Hosting',
-      links: [
-        { name: 'Shared Hosting', url: '/hosting/shared' },
-        { name: 'Business Hosting', url: '/hosting/business' },
-        { name: 'Enterprise Hosting', url: '/hosting/enterprise' }
-      ]
-    },
-    {
-      title: 'Domains',
-      links: [
-        { name: 'Domain Search', url: '/domains/search' },
-        { name: 'Domain Transfer', url: '/domains/transfer' },
-        { name: 'Domain Pricing', url: '/domains/pricing' }
-      ]
-    },
-    {
-      title: 'Company',
-      links: [
-        { name: 'About Us', url: '/about' },
-        { name: 'Contact', url: '/contact' },
-        { name: 'Blog', url: '/blog' }
-      ]
-    },
-    {
-      title: 'Support',
-      links: [
-        { name: 'Help Center', url: '/support' },
-        { name: 'Knowledge Base', url: '/knowledge-base' },
-        { name: 'System Status', url: '/status' }
-      ]
-    }
-  ]
+  const [activeSection, setActiveSection] = useState(null);
+
+  const toggleSection = (section) => {
+    setActiveSection(activeSection === section ? null : section);
+  };
 
   return (
-    <footer className="bg-gray-800 text-white pt-12 pb-6">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          {footerLinks.map((section, index) => (
-            <div key={index}>
-              <h3 className="text-lg font-semibold mb-4">{section.title}</h3>
-              <ul className="space-y-2">
-                {section.links.map((link, linkIndex) => (
-                  <li key={linkIndex}>
-                    <Link 
-                      to={link.url} 
-                      className="text-gray-300 hover:text-primary transition-colors"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+    <footer className="bg-gray-900 text-white py-8 px-4 md:px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row">
+          {/* Brand Section - Left Side */}
+          <div className="w-full md:w-1/4 mb-6 md:mb-0">
+            <h2 className="text-2xl font-bold text-white">Belfor
+               <span className="text-blue-500">Tech</span>
+               </h2>
+            <p className="text-gray-400 mt-2 text-sm">Transforming Industries through Innovative Technology</p>
+            
+            {/* Social Media Links with React Icons */}
+            <div className="flex space-x-4 mt-4">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                <FaFacebookF className="h-5 w-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                <FaTwitter className="h-5 w-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                <FaLinkedinIn className="h-5 w-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                <FaInstagram className="h-5 w-5" />
+              </a>
             </div>
-          ))}
+          </div>
+
+          {/* Content Sections */}
+          <div className="w-full md:w-3/4 grid grid-cols-1 md:grid-cols-4 gap-6">
+            {/* Contact & Support Section */}
+            <div>
+              <h3 
+                className="text-lg font-semibold mb-4 flex justify-between items-center cursor-pointer md:cursor-auto"
+                onClick={() => toggleSection('contact')}
+              >
+                Contact & Support
+                <span className="md:hidden">
+                  {activeSection === 'contact' ? '−' : '+'}
+                </span>
+              </h3>
+              <div className={`${activeSection === 'contact' || activeSection === null ? 'block' : 'hidden'} md:block`}>
+                <div className="mb-3">
+                  <p className="font-medium text-gray-400">Nairobi, Kenya</p>
+                  <p className="text-gray-400">+254 700 123 456</p>
+                  <p className="text-gray-400">info@belfortech.co.ke</p>
+                </div>
+                <div className="mb-3">
+                  <p className="font-medium text-gray-400">24/7 Support Available</p>
+                </div>
+                <button className="text-gray-400 hover:text-white font-medium transition-colors duration-300 text-sm">
+                  Open Support Ticket
+                </button>
+              </div>
+            </div>
+
+            {/* Manage Your Account Section */}
+            <div>
+              <h3 
+                className="text-lg font-semibold mb-4 flex justify-between items-center cursor-pointer md:cursor-auto"
+                onClick={() => toggleSection('account')}
+              >
+                Manage Your Account
+                <span className="md:hidden">
+                  {activeSection === 'account' ? '−' : '+'}
+                </span>
+              </h3>
+              <div className={`${activeSection === 'account' || activeSection === null ? 'block' : 'hidden'} md:block`}>
+                <ul className="space-y-2">
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/services">My Services</Link>
+                  </li>
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/invoices">View Invoices</Link>
+                  </li>
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/tickets">Open Ticket</Link>
+                  </li>
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/account">Update Account Info</Link>
+                  </li>
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/contacts">Add New Contact</Link>
+                  </li>
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/logout">Logout</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Services & Domains Section */}
+            <div>
+              <h3 
+                className="text-lg font-semibold mb-4 flex justify-between items-center cursor-pointer md:cursor-auto"
+                onClick={() => toggleSection('services')}
+              >
+                Services & Domains
+                <span className="md:hidden">
+                  {activeSection === 'services' ? '−' : '+'}
+                </span>
+              </h3>
+              <div className={`${activeSection === 'services' || activeSection === null ? 'block' : 'hidden'} md:block`}>
+                <ul className="space-y-2">
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/hosting">Web Hosting Plans</Link>
+                  </li>
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/domains/register">Register a New Domain</Link>
+                  </li>
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/domains/transfer">Domain Transfer</Link>
+                  </li>
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/services/order">Order New Services</Link>
+                  </li>
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/domains">My Domains</Link>
+                  </li>
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/resources">Resources</Link>
+                  </li>
+                  <li className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                    <Link to="/careers">Career Opportunities</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Certification Badges Section */}
+            <div className="flex flex-col justify-center items-start md:items-center">
+              <div className="flex flex-col space-y-4">
+                <img 
+                  src="/src/assets/images/cert.png" 
+                  alt="Certification Badge 1" 
+                  className="h-12"
+                />
+                <img 
+                  src="/src/assets/images/protect.png" 
+                  alt="Certification Badge 2" 
+                  className="h-12"
+                />
+                <img 
+                  src="/src/assets/images/third.png" 
+                  alt="Certification Badge 3" 
+                  className="h-12"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="border-t border-gray-700 pt-6">
+        {/* Bottom Section */}
+        <div className="border-t border-gray-700 pt-6 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <Link to="/" className="text-2xl font-bold text-primary">
-                Belfor Host
-              </Link>
-              <p className="text-gray-400 mt-1">© {new Date().getFullYear()} Belfor Tech Consultants. All rights reserved.</p>
+            <div className="mb-4 md:mb-0 text-center md:text-left">
+              <p className="text-gray-400 text-sm">
+                © 2025 Belfor Tech Consultants. All Rights Reserved.
+              </p>
             </div>
-
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-primary">
-                <span className="sr-only">Facebook</span>
-                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
-                </svg>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary">
-                <span className="sr-only">Twitter</span>
-                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                </svg>
-              </a>
+            
+            <div className="flex space-x-6 items-center">
+              <Link to="/faq" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                FAQ
+              </Link>
+              <Link to="/blog" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                Blogs
+              </Link>
+              <Link to="/knowledge-base" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
+                Knowledge Base
+              </Link>
             </div>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }

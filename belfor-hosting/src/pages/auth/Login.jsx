@@ -1,16 +1,17 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { Alert, Loader } from '../../components/common';
-import { Card, Form, Button } from 'react-bootstrap';
+import Alert from '../../components/common/Alert';
+import Loader from '../../components/common/Loader';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaTimes, FaEye, FaEyeSlash } from 'react-icons/fa';
 
-export default function Login() {
+export default function LoginModal({ onClose, onSwitch }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
-  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -19,50 +20,131 @@ export default function Login() {
       setError('');
       setLoading(true);
       await login(email, password);
-      navigate('/user/dashboard');
+      onClose();
     } catch (err) {
       setError('Failed to log in: ' + err.message);
     }
     setLoading(false);
   }
 
+  const overlayVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 }
+  };
+
+  const modalVariants = {
+    hidden: { opacity: 0, scale: 0.8, y: 50 },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      y: 0,
+      transition: { type: 'spring', damping: 25, stiffness: 300 }
+    },
+    exit: { opacity: 0, scale: 0.8, y: 50 }
+  };
+
   return (
-    <div className="auth-container">
-      <Card className="auth-card">
-        <Card.Body>
-          <h2 className="text-center mb-4">Log In</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="email" className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
+    <motion.div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      variants={overlayVariants}
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+      onClick={onClose}
+    >
+      <motion.div
+        className="bg-white rounded-lg shadow-xl w-full max-w-md overflow-hidden"
+        variants={modalVariants}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex justify-between items-center p-6 border-b">
+          <h2 className="text-2xl font-bold text-gray-800">Log In</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 transition-colors"
+          >
+            <FaTimes size={20} />
+          </button>
+        </div>
+        
+        <div className="p-6">
+          {error && (
+            <Alert variant="danger" className="mb-4">
+              {error}
+            </Alert>
+          )}
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
+              <input
+                id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
-            </Form.Group>
-            <Form.Group id="password" className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Button disabled={loading} className="w-100 mt-3" type="submit">
+            </div>
+            
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
+                  required
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash className="text-gray-500" /> : <FaEye className="text-gray-500" />}
+                </button>
+              </div>
+            </div>
+            
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => onSwitch('forgot')}
+                className="text-sm text-blue-600 hover:text-blue-800"
+              >
+                Forgot Password?
+              </button>
+            </div>
+            
+            <button
+              disabled={loading}
+              type="submit"
+              className="w-full bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+            >
               {loading ? <Loader size="sm" /> : 'Log In'}
-            </Button>
-          </Form>
-          <div className="w-100 text-center mt-3">
-            <Link to="/auth/forgot-password">Forgot Password?</Link>
+            </button>
+          </form>
+          
+          <div className="mt-4 text-center">
+            <p className="text-sm text-gray-600">
+              Need an account?{' '}
+              <button
+                type="button"
+                onClick={() => onSwitch('register')}
+                className="text-blue-600 hover:text-blue-800 font-medium"
+              >
+                Sign Up
+              </button>
+            </p>
           </div>
-        </Card.Body>
-      </Card>
-      <div className="w-100 text-center mt-2">
-        Need an account? <Link to="/auth/register">Sign Up</Link>
-      </div>
-    </div>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
