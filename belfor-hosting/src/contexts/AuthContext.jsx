@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { login as authLogin, logout as authLogout, getCurrentUser, register as authRegister } from '../services/api/auth'
+import authService, { getCurrentUser as apiGetCurrentUser } from '../services/api/auth'
 
 const AuthContext = createContext()
 
@@ -9,63 +9,67 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
+  // Utility to safely call API functions
+  const safeApiCall = async (fn, fallback = null) => {
+    try {
+      if (!process.env.REACT_APP_API_URL) return fallback // skip API calls if no backend
+      return await fn()
+    } catch {
+      return fallback
+    }
+  }
+
   useEffect(() => {
     async function loadUser() {
-      try {
-        const currentUser = await getCurrentUser()
-        setUser(currentUser)
-      } catch (error) {
-        setUser(null)
-      } finally {
-        setLoading(false)
-      }
+      const currentUser = await safeApiCall(apiGetCurrentUser, null)
+      setUser(currentUser)
+      setLoading(false)
     }
     loadUser()
   }, [])
 
   const login = async (credentials) => {
+    setLoading(true)
     try {
-      setLoading(true)
-      const loggedInUser = await authLogin(credentials)
-      setUser(loggedInUser)
-      
-      if (loggedInUser.role === 'admin') {
+      const loggedInUser = await safeApiCall(() => authService.login(credentials), { user: null, token: null })
+      setUser(loggedInUser?.user || null)
+
+      if (loggedInUser?.user?.role === 'admin') {
         navigate('/admin/dashboard')
       } else {
         navigate('/user/dashboard')
       }
       return { success: true }
     } catch (error) {
-      return { success: false, error: error.message }
+      return { success: false, error: error?.message || 'Login failed' }
     } finally {
       setLoading(false)
     }
   }
 
   const register = async (userData) => {
+    setLoading(true)
     try {
-      setLoading(true)
-      const newUser = await authRegister(userData)
+      const newUser = await safeApiCall(() => authService.register(userData), null)
       setUser(newUser)
-      
-      // Redirect to appropriate dashboard after registration
-      if (newUser.role === 'admin') {
+
+      if (newUser?.role === 'admin') {
         navigate('/admin/dashboard')
       } else {
         navigate('/user/dashboard')
       }
       return { success: true }
     } catch (error) {
-      return { success: false, error: error.message }
+      return { success: false, error: error?.message || 'Registration failed' }
     } finally {
       setLoading(false)
     }
   }
 
   const logout = async () => {
+    setLoading(true)
     try {
-      setLoading(true)
-      await authLogout()
+      await safeApiCall(authService.logout, null)
       setUser(null)
       navigate('/login')
     } finally {
@@ -79,7 +83,7 @@ export function AuthProvider({ children }) {
     isAdmin: user?.role === 'admin',
     loading,
     login,
-    register, 
+    register,
     logout
   }
 
