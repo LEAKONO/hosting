@@ -1,150 +1,130 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import Alert from '../../components/common/Alert';
 import Loader from '../../components/common/Loader';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaTimes, FaEye, FaEyeSlash } from 'react-icons/fa';
 
-export default function LoginModal({ onClose, onSwitch }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+const Login = () => {
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: ''
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { login, user, isAuthenticated } = useAuth();
 
-  async function handleSubmit(e) {
+  useEffect(() => {
+    // Redirect if already authenticated
+    if (isAuthenticated && user) {
+      redirectBasedOnRole();
+    }
+  }, [isAuthenticated, user]);
+
+  const redirectBasedOnRole = () => {
+    if (user.role === 'admin') {
+      navigate('/admin/dashboard/overview');
+    } else {
+      navigate('/user/dashboard');
+    }
+  };
+
+  const handleChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     
     try {
-      setError('');
-      setLoading(true);
-      await login(email, password);
-      onClose();
-    } catch (err) {
-      setError('Failed to log in: ' + err.message);
+      await login(credentials);
+      // Redirect will happen automatically via useEffect
+    } catch (error) {
+      console.error('Login failed:', error);
+    } finally {
+      setIsLoading(false);
     }
-    setLoading(false);
+  };
+
+  if (isLoading) {
+    return <Loader />;
   }
 
-  const overlayVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 }
-  };
-
-  const modalVariants = {
-    hidden: { opacity: 0, scale: 0.8, y: 50 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
-      y: 0,
-      transition: { type: 'spring', damping: 25, stiffness: 300 }
-    },
-    exit: { opacity: 0, scale: 0.8, y: 50 }
-  };
-
   return (
-    <motion.div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-      variants={overlayVariants}
-      initial="hidden"
-      animate="visible"
-      exit="hidden"
-      onClick={onClose}
-    >
-      <motion.div
-        className="bg-white rounded-lg shadow-xl w-full max-w-md overflow-hidden"
-        variants={modalVariants}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex justify-between items-center p-6 border-b">
-          <h2 className="text-2xl font-bold text-gray-800">Log In</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 transition-colors"
-          >
-            <FaTimes size={20} />
-          </button>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Sign in to your account
+          </h2>
         </div>
-        
-        <div className="p-6">
-          {error && (
-            <Alert variant="danger" className="mb-4">
-              {error}
-            </Alert>
-          )}
-          
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
               <input
-                id="email"
+                name="email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Email address"
+                value={credentials.email}
+                onChange={handleChange}
               />
             </div>
-            
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
-                  required
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <FaEyeSlash className="text-gray-500" /> : <FaEye className="text-gray-500" />}
-                </button>
-              </div>
+              <input
+                name="password"
+                type="password"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Password"
+                value={credentials.password}
+                onChange={handleChange}
+              />
             </div>
-            
-            <div className="flex justify-end">
-              <button
-                type="button"
-                onClick={() => onSwitch('forgot')}
-                className="text-sm text-blue-600 hover:text-blue-800"
-              >
-                Forgot Password?
-              </button>
-            </div>
-            
-            <button
-              disabled={loading}
-              type="submit"
-              className="w-full bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
-            >
-              {loading ? <Loader size="sm" /> : 'Log In'}
-            </button>
-          </form>
-          
-          <div className="mt-4 text-center">
-            <p className="text-sm text-gray-600">
-              Need an account?{' '}
-              <button
-                type="button"
-                onClick={() => onSwitch('register')}
-                className="text-blue-600 hover:text-blue-800 font-medium"
-              >
-                Sign Up
-              </button>
-            </p>
           </div>
-        </div>
-      </motion.div>
-    </motion.div>
+
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <input
+                id="remember-me"
+                name="remember-me"
+                type="checkbox"
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+              />
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                Remember me
+              </label>
+            </div>
+
+            <div className="text-sm">
+              <Link to="/auth/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
+                Forgot your password?
+              </Link>
+            </div>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+            >
+              {isLoading ? 'Signing in...' : 'Sign in'}
+            </button>
+          </div>
+
+          <div className="text-center">
+            <Link to="/auth/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+              Don't have an account? Sign up
+            </Link>
+          </div>
+        </form>
+      </div>
+    </div>
   );
-}
+};
+
+export default Login;

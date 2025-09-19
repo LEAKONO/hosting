@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { login as authLogin, logout as authLogout, getCurrentUser } from '../services/api/auth'
+import { login as authLogin, logout as authLogout, getCurrentUser, register as authRegister } from '../services/api/auth'
 
 const AuthContext = createContext()
 
@@ -42,6 +42,26 @@ export function AuthProvider({ children }) {
     }
   }
 
+  const register = async (userData) => {
+    try {
+      setLoading(true)
+      const newUser = await authRegister(userData)
+      setUser(newUser)
+      
+      // Redirect to appropriate dashboard after registration
+      if (newUser.role === 'admin') {
+        navigate('/admin/dashboard')
+      } else {
+        navigate('/user/dashboard')
+      }
+      return { success: true }
+    } catch (error) {
+      return { success: false, error: error.message }
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const logout = async () => {
     try {
       setLoading(true)
@@ -59,6 +79,7 @@ export function AuthProvider({ children }) {
     isAdmin: user?.role === 'admin',
     loading,
     login,
+    register, 
     logout
   }
 

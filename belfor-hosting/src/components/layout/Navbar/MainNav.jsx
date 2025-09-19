@@ -24,7 +24,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import companyLogo from '@assets/images/belfor.png';
 import LoginModal from "@pages/auth/Login";
 import RegisterModal from "@pages/auth/Register";
-import ForgotPasswordModal from "@pages/auth/ForgotPassword"; // Import the ForgotPasswordModal
+import ForgotPasswordModal from "@pages/auth/ForgotPassword";
 
 export default function MainNav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function MainNav() {
   const [scrolled, setScrolled] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
-  const [showForgotModal, setShowForgotModal] = useState(false); // Add state for forgot password modal
+  const [showForgotModal, setShowForgotModal] = useState(false);
   const location = useLocation();
   const dropdownRef = useRef(null);
 
@@ -210,12 +210,10 @@ export default function MainNav() {
   };
 
   const handleAuthSwitch = (mode) => {
-    // Close all modals first
     setShowLoginModal(false);
     setShowRegisterModal(false);
     setShowForgotModal(false);
     
-    // Open the requested modal
     if (mode === 'login') setShowLoginModal(true);
     if (mode === 'register') setShowRegisterModal(true);
     if (mode === 'forgot') setShowForgotModal(true);
@@ -232,7 +230,6 @@ export default function MainNav() {
         >
           <div className="mx-auto px-4 py-2 flex flex-col md:flex-row justify-between items-center border-b border-white/20">
             <div className="flex items-center space-x-4 mb-2 md:mb-0">
-              {/* Phone - Hidden on mobile, shown on md and up */}
               <motion.div 
                 className="hidden md:flex items-center text-sm"
                 whileHover={{ scale: 1.05 }}
@@ -241,7 +238,6 @@ export default function MainNav() {
                 <span>+254 700 123 456</span>
               </motion.div>
               
-              {/* Email - Always visible but stacked on mobile */}
               <motion.div 
                 className="flex items-center text-sm"
                 whileHover={{ scale: 1.05 }}
@@ -287,8 +283,8 @@ export default function MainNav() {
                 </Link>
               </motion.div>
 
-              {/* Desktop Navigation - Centered */}
-              <div className="hidden lg:flex items-center justify-center flex-1">
+              {/* Desktop Navigation - Right Aligned */}
+              <div className="hidden lg:flex items-center justify-end flex-1">
                 <div className="flex items-center space-x-1">
                   {navItems.map((item, index) => (
                     <motion.div 
@@ -324,7 +320,7 @@ export default function MainNav() {
                                 animate="open"
                                 exit="closed"
                                 variants={dropdownVariants}
-                                className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white rounded-md shadow-lg z-50 p-4 border border-gray-200"
+                                className="absolute right-0 mt-2 bg-white rounded-md shadow-lg z-50 p-4 border border-gray-200"
                                 style={{ width: 'max-content', maxWidth: '600px' }}
                               >
                                 <div className="flex flex-col space-y-3">
@@ -569,7 +565,6 @@ export default function MainNav() {
         )}
       </AnimatePresence>
 
-      {/* Forgot Password Modal */}
       <AnimatePresence>
         {showForgotModal && (
           <ForgotPasswordModal 

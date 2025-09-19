@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import { ThemeProvider } from './contexts/ThemeContext'; 
 import { NotificationProvider } from './contexts/NotificationContext';
-import { AuthProvider } from './contexts/AuthContext'; // Import AuthProvider
+import { AuthProvider } from './contexts/AuthContext';
 import AppRoutes from './route';
 import MainLayout from './layouts/MainLayout';
 import Loader from './components/common/Loader';
